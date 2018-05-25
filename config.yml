@@ -1,0 +1,68 @@
+
+# MySQL settings
+database:
+  driverClass: com.mysql.jdbc.Driver
+  url: jdbc:mysql://localhost/dropwizarddb
+  user: root
+  password: root
+
+# Server settings
+server:
+#  adminContextPath: /
+#  applicationContextPath: /
+  applicationConnectors:
+    - type: https
+      port: 8888
+      keyStorePath: src/main/resources/stores/myKeyStore.jks
+      keyStorePassword: changeit
+      trustStorePath: src/main/resources/stores/myTrustStore.jks
+      trustStorePassword: changeit
+      validateCerts: false
+      certAlias: oauth2-dropwizard
+  adminConnectors:
+    - type: https
+      port: 8889
+      keyStorePath: src/main/resources/stores/myKeyStore.jks
+      keyStorePassword: changeit
+      trustStorePath: src/main/resources/stores/myTrustStore.jks
+      trustStorePassword: changeit
+      validateCerts: false
+      certAlias: oauth2-dropwizard
+
+# Client configuration settings. This is the client that connects to the ApiFest server
+clientConfig:
+  type: https
+  keyStorePath: src/main/resources/stores/myKeyStore.jks
+  keyStorePassword: changeit
+  trustStorePath: src/main/resources/stores/myTrustStore.jks
+  trustStorePassword: changeit
+  validateCerts: false
+
+# ApiFest server
+oauth2Config:
+    url: https://localhost:8888/user
+    scope: api
+    clientId: dba99b80e2b632bd2d92be7ff9819facc0d6679b
+    clientSecret: e00bc0dc8ae41dc4897ef4e8dd42eab0ec3d077336c6d6f43237a890e4c985b7
+    cookieSecretKey: XTgPOjYTGDJShjdZ  # Bit size of 128 to 256 bits (16 to 32 chars)
+    cacheSpec: maximumSize=10000, expireAfterWrite=10m  # This caches up to 10,000 principals with an LRU policy, evicting stale entries after 10 minutes.
+
+#View setting
+view:
+  .html:
+    cache: false
+    prefix: "/templates"
+    mode: HTML
+
+# Metrics log setting
+metrics:
+  frequency: 300 second #default 1 second
+  reporters:
+    - type: log
+      logger: metrics
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
